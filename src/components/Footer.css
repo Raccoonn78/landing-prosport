@@ -1,0 +1,106 @@
+.footer {
+  background: var(--ink);
+  color: rgba(247, 244, 238, 0.75);
+}
+
+/* Все пояса подряд — путь, пройденный по сайту */
+.footer__belt {
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    #ffffff 0 16.66%,
+    var(--belt-yellow) 16.66% 33.33%,
+    var(--belt-green) 33.33% 50%,
+    var(--belt-blue) 50% 66.66%,
+    var(--belt-red) 66.66% 83.33%,
+    #2b2e36 83.33% 100%
+  );
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.2fr;
+  gap: 48px;
+  padding-block: 64px 48px;
+}
+
+.footer__brand {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.footer__brand img {
+  width: 200px;
+}
+
+.footer__brand p {
+  max-width: 360px;
+  font-size: 15px;
+}
+
+.footer__title {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.45);
+}
+
+.footer__nav,
+.footer__contacts {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  justify-items: start;
+}
+
+.footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer a:not(.btn):hover {
+  color: var(--paper);
+}
+
+.footer__contacts svg {
+  color: var(--belt-yellow);
+}
+
+.footer__contacts .btn {
+  margin-top: 10px;
+  color: var(--ink);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 24px 32px;
+  border-top: 1px solid rgba(247, 244, 238, 0.1);
+  font-size: 14px;
+  color: rgba(247, 244, 238, 0.5);
+}
+
+@media (max-width: 860px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}

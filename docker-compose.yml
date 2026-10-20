@@ -1,0 +1,36 @@
+name: prosport-site
+
+services:
+  # Разработка: http://localhost:5173 — правки в src/ применяются сразу
+  dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - '${DEV_PORT:-5173}:5173'
+    volumes:
+      - ./:/app
+      # node_modules берём из образа (Linux), а не с хоста
+      - /app/node_modules
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+
+  # Сборка в папку ./dist на хосте: docker compose run --rm build
+  build:
+    build:
+      context: .
+      target: deps
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: npm run build
+    profiles: ['tools']
+
+  # Production: http://localhost:8088 — собранный сайт за nginx
+  web:
+    build:
+      context: .
+      target: production
+    ports:
+      - '${WEB_PORT:-8088}:80'
+    restart: unless-stopped

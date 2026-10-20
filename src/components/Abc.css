@@ -1,0 +1,354 @@
+.abc {
+  position: relative;
+  overflow: hidden;
+}
+
+.abc__tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 5px;
+  margin-bottom: 32px;
+  border-radius: 999px;
+  background: rgba(247, 244, 238, 0.08);
+}
+
+.abc__tabs button {
+  min-height: 44px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(247, 244, 238, 0.75);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.abc__tabs button:hover {
+  color: var(--paper);
+}
+
+.abc__tabs button[aria-selected='true'] {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.abc__panel {
+  animation: panel-in 0.35s ease;
+}
+
+
+/* ---------- Путь пояса ---------- */
+.belt-path__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+/* Линия «пути» за кнопками */
+.belt-path__steps::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 34px;
+  border-top: 2px dashed rgba(247, 244, 238, 0.18);
+}
+
+.belt-path__steps button {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 6px 14px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: rgba(247, 244, 238, 0.6);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.belt-path__steps button svg {
+  padding: 8px;
+  box-sizing: content-box;
+  border-radius: 16px;
+  background: var(--paper);
+  transition: transform 0.25s ease;
+}
+
+.belt-path__steps button:hover {
+  color: var(--paper);
+}
+
+.belt-path__steps button:hover svg {
+  transform: translateY(-3px) rotate(-4deg);
+}
+
+.belt-path__steps button.is-passed {
+  color: rgba(247, 244, 238, 0.85);
+}
+
+.belt-path__steps button.is-active {
+  background: rgba(247, 244, 238, 0.08);
+  color: var(--paper);
+}
+
+.belt-path__steps button.is-active svg {
+  transform: scale(1.12);
+}
+
+.belt-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: var(--radius-xl);
+  background: var(--paper);
+  color: var(--ink);
+  animation: panel-in 0.35s ease;
+}
+
+.belt-card__visual {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.9), transparent 65%),
+    var(--paper-2);
+}
+
+.belt-card__visual svg {
+  width: 78%;
+  height: auto;
+  filter: drop-shadow(0 18px 18px rgba(21, 23, 28, 0.18));
+}
+
+.belt-card--white .belt-card__visual {
+  background: radial-gradient(circle at 50% 55%, #e9e4d9, #ddd5c6);
+}
+
+.belt-card__body {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.belt-card__step {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.belt-card h3 {
+  font-size: clamp(28px, 3.6vw, 44px);
+}
+
+.belt-card__rank {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--paper-2);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.belt-card__meaning {
+  font-size: clamp(17px, 1.7vw, 20px);
+  color: var(--ink-2);
+}
+
+.belt-card__nav {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.belt-card__nav button {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.belt-card__nav button:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+/* ---------- Принципы ---------- */
+.tenets {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tenet {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  min-height: 280px;
+  padding: 26px 22px;
+  border-radius: var(--radius-lg);
+  background: rgba(247, 244, 238, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(247, 244, 238, 0.1);
+  overflow: hidden;
+  animation: panel-in 0.4s ease both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.tenet__ko {
+  position: absolute;
+  right: -6px;
+  bottom: -14px;
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--paper);
+  opacity: 0.07;
+  white-space: nowrap;
+}
+
+.tenet__num {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--belt-yellow);
+}
+
+.tenet h3 {
+  font-size: 20px;
+}
+
+.tenet p {
+  font-size: 15px;
+  color: rgba(247, 244, 238, 0.72);
+}
+
+/* ---------- Словарь ---------- */
+.glossary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+}
+
+.glossary__item {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  padding: 22px;
+  border-radius: var(--radius-md);
+  background: rgba(247, 244, 238, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(247, 244, 238, 0.1);
+}
+
+.glossary dt {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.glossary dt span {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--belt-yellow);
+}
+
+.glossary dd {
+  margin: 0;
+  font-size: 15px;
+  color: rgba(247, 244, 238, 0.72);
+}
+
+@media (max-width: 1020px) {
+  .tenets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tenet {
+    min-height: 0;
+  }
+
+  .tenet:last-child {
+    grid-column: span 2;
+  }
+
+  .glossary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .belt-card {
+    grid-template-columns: 1fr;
+  }
+
+  .belt-card__visual {
+    aspect-ratio: 16 / 7;
+  }
+
+  .belt-card__visual svg {
+    width: 52%;
+  }
+}
+
+@media (max-width: 680px) {
+  .belt-path__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .belt-path__steps::before {
+    display: none;
+  }
+
+  .belt-path__steps button {
+    font-size: 14px;
+  }
+
+  .abc__tabs {
+    display: flex;
+  }
+
+  .abc__tabs button {
+    flex: 1;
+    padding: 0 12px;
+  }
+
+  .tenets,
+  .glossary {
+    grid-template-columns: 1fr;
+  }
+
+  .tenet:last-child {
+    grid-column: auto;
+  }
+}

@@ -1,0 +1,32 @@
+.emblem {
+  position: relative;
+  display: inline-block;
+  flex: none;
+}
+
+.emblem img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.emblem__mark {
+  transform: scale(0.42);
+}
+
+/* Исходные файлы белые — для светлого фона перекрашиваем в чёрный */
+.emblem--dark img {
+  filter: brightness(0);
+}
+
+.emblem--spin .emblem__ring {
+  animation: emblem-spin 40s linear infinite;
+}
+
+@keyframes emblem-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

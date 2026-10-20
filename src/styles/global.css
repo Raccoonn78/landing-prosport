@@ -1,0 +1,285 @@
+/* ============================================================
+   Дизайн-токены: тёплый «добок» + цвета поясов как акценты
+   ============================================================ */
+:root {
+  --paper: #f7f4ee;
+  --paper-2: #efe9de;
+  --surface: #ffffff;
+  --ink: #15171c;
+  --ink-2: #353a45;
+  --muted: #646a77;
+  --line: #e4ddd0;
+  --line-strong: #cfc6b5;
+
+  --primary: #2747a8;
+  --primary-hover: #1d3a91;
+  --primary-soft: #e7ecf9;
+
+  --belt-white: #ffffff;
+  --belt-yellow: #f2c14e;
+  --belt-green: #3c8d5a;
+  --belt-blue: #2747a8;
+  --belt-red: #c9452f;
+  --belt-black: #15171c;
+
+  --radius-xl: 36px;
+  --radius-lg: 26px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+
+  --shadow-sm: 0 1px 2px rgba(21, 23, 28, 0.06);
+  --shadow: 0 1px 2px rgba(21, 23, 28, 0.05), 0 18px 40px -22px rgba(21, 23, 28, 0.28);
+
+  --font-display: 'Unbounded Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Manrope Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-ko: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+
+  --container: 1200px;
+  --gutter: clamp(16px, 4vw, 32px);
+  --header-h: 72px;
+  --section-y: clamp(72px, 10vw, 128px);
+}
+
+/* ============================================================
+   База
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 3px solid var(--belt-yellow);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--belt-yellow);
+  color: var(--ink);
+}
+
+.ko {
+  font-family: var(--font-ko);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ============================================================
+   Раскладка
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.section--tint {
+  background: var(--paper-2);
+}
+
+/* ============================================================
+   Кнопки
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 10px 24px -12px rgba(39, 71, 168, 0.8);
+}
+
+.btn--primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--line-strong);
+}
+
+.btn--ghost:hover {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+.btn--light {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.btn--light:hover {
+  background: #fff;
+}
+
+.btn--sun {
+  background: var(--belt-yellow);
+  color: var(--ink);
+}
+
+.btn--sun:hover {
+  background: #f5cd6c;
+}
+
+/* ============================================================
+   Появление при прокрутке (мягкое, без резких эффектов)
+   ============================================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Появление содержимого вкладок и отфильтрованных списков */
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
