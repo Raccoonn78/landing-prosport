@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react';
 const usePolling = process.env.CHOKIDAR_USEPOLLING === 'true';
 
 export default defineConfig({
-  base: '/landing-prosport/', 
+  base: './', 
   plugins: [react()],
   server: {
     host: '0.0.0.0',
