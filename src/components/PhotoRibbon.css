@@ -1,0 +1,184 @@
+.ribbon {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow: var(--shadow);
+  isolation: isolate;
+}
+
+.ribbon__track {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.ribbon__track::-webkit-scrollbar {
+  display: none;
+}
+
+.ribbon__slide {
+  position: relative;
+  flex: 0 0 100%;
+  margin: 0;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+.ribbon__slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 1.2s ease;
+}
+
+/* Эффект Кена Бёрнса — медленное приближение активного кадра */
+.ribbon__slide.is-active img {
+  animation: ken-burns 9s ease-out forwards;
+}
+
+.ribbon__slide:nth-child(even).is-active img {
+  transform-origin: 30% 40%;
+}
+
+.ribbon__slide:nth-child(odd).is-active img {
+  transform-origin: 70% 60%;
+}
+
+@keyframes ken-burns {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+/* Затемнение снизу под элементы управления */
+.ribbon::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 96px;
+  background: linear-gradient(transparent, rgba(15, 16, 20, 0.55));
+  pointer-events: none;
+}
+
+.ribbon__ui {
+  position: absolute;
+  inset: auto 18px 16px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #fff;
+}
+
+.ribbon__count {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ribbon__count span {
+  opacity: 0.6;
+}
+
+.ribbon__dots {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+}
+
+.ribbon__dots button {
+  flex: 1;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.ribbon__dots button::before {
+  content: '';
+  display: block;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.ribbon__dots button span {
+  display: block;
+  height: 3px;
+  margin-top: -3px;
+  border-radius: 3px;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.ribbon__dots button.is-active span {
+  animation: ribbon-timer linear forwards;
+}
+
+@keyframes ribbon-timer {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.ribbon__arrows {
+  display: flex;
+  gap: 6px;
+}
+
+.ribbon__arrows button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background-color 0.2s ease;
+}
+
+.ribbon__arrows button:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+@media (max-width: 560px) {
+  .ribbon {
+    border-radius: var(--radius-lg);
+  }
+
+  .ribbon__arrows {
+    display: none;
+  }
+
+  .ribbon__ui {
+    inset: auto 14px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon__slide.is-active img,
+  .ribbon__dots button.is-active span {
+    animation: none;
+  }
+
+  .ribbon__dots button.is-active span {
+    transform: scaleX(1);
+  }
+}

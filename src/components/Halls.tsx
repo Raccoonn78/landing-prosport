@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { ArrowUpRight, MapPin, Phone } from 'lucide-react';
-import { club, coaches, halls } from '../data/content';
+import { ArrowUpRight, Mail, MapPin } from 'lucide-react';
+import { club, coaches, halls, mailto } from '../data/content';
 import { delay } from '../utils/reveal';
 import { SectionHead } from './SectionHead';
 import './Halls.css';
@@ -23,19 +23,19 @@ export function Halls() {
       <div className="container halls__grid">
         <div className="halls__intro">
           <SectionHead
-            belt="black"
+            belt="red"
             tag="Где мы тренируемся"
             title="Залы в Москве и Подмосковье"
-            lead="Тренировки проходят в удобное время в спортивных залах и школах. Выберите зал рядом с домом — или позвоните, и мы подскажем ближайший филиал."
+            lead="Тренировки проходят в удобное время в спортивных залах и школах. Выберите зал рядом с домом — или напишите нам, и мы подскажем ближайший филиал."
           />
           <div className="halls__call" data-reveal>
             <p>
               <strong>13 филиалов</strong>
               <span>в Москве и Московской области</span>
             </p>
-            <a className="btn btn--primary" href={club.phoneHref}>
-              <Phone size={18} />
-              {club.phone}
+            <a className="btn btn--primary" href={mailto('Подобрать зал')}>
+              <Mail size={18} />
+              {club.email}
             </a>
           </div>
         </div>

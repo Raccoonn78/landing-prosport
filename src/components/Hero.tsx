@@ -1,9 +1,13 @@
 import { ArrowRight, MapPin } from 'lucide-react';
-import { club, coaches, stats } from '../data/content';
-import { BeltKnot } from './BeltKnot';
-import { Emblem } from './Emblem';
+import { club, coaches, mailto, stats } from '../data/content';
+import { photo, photosIn } from '../data/photos';
 import { delay } from '../utils/reveal';
+import { BeltKnot } from './BeltKnot';
+import { PhotoRibbon } from './PhotoRibbon';
+import { Ticker } from './Ticker';
 import './Hero.css';
+
+const heroPhotos = photosIn('hero');
 
 export function Hero() {
   return (
@@ -21,16 +25,16 @@ export function Hero() {
 
           <h1 className="hero__title" data-reveal style={delay(0.08)}>
             Тхэквон-до
-            <span>для детей и взрослых</span>
+            <span className="hero__motto">{club.motto}</span>
           </h1>
 
           <p className="hero__lead" data-reveal style={delay(0.16)}>
-            Приглашаем на занятия мальчиков и девочек, подростков и взрослых. Учим с основ — бережно, системно и с
-            настоящим спортивным результатом: от белого пояса до чёрного.
+            Растим сильных, уверенных и добрых. Детские, подростковые и взрослые группы в 13 залах Москвы и области —
+            от первого белого пояса до чёрного.
           </p>
 
           <div className="hero__actions" data-reveal style={delay(0.24)}>
-            <a className="btn btn--primary" href="#signup">
+            <a className="btn btn--primary" href={mailto()}>
               Записаться на тренировку
               <ArrowRight size={18} />
             </a>
@@ -42,9 +46,10 @@ export function Hero() {
 
           <div className="hero__coaches" data-reveal style={delay(0.32)}>
             <div className="hero__avatars">
-              {coaches.map((c) => (
-                <img key={c.id} src={c.photo} alt="" width={300} height={300} />
-              ))}
+              {coaches.map((c) => {
+                const p = photo(`coaches/${c.id}`);
+                return p ? <img key={c.id} src={p.src} alt="" width={p.width} height={p.height} /> : null;
+              })}
             </div>
             <p>
               <strong>Тренеры с соревновательным опытом</strong>
@@ -54,22 +59,7 @@ export function Hero() {
         </div>
 
         <div className="hero__visual" data-reveal style={delay(0.1)}>
-          <div className="hero__photo">
-            <img
-              src="/images/hero.webp"
-              alt="Тренер клуба и юная спортсменка в форме для тхэквон-до и спарринговых перчатках"
-              width={1680}
-              height={656}
-              fetchPriority="high"
-            />
-          </div>
-          <div className="hero__badge">
-            <Emblem size={64} tone="light" spin />
-            <p>
-              <strong>От белого до чёрного</strong>
-              <span>пояса — шаг за шагом, в своём темпе</span>
-            </p>
-          </div>
+          <PhotoRibbon photos={heroPhotos} label="Фотографии с тренировок и турниров клуба" />
         </div>
       </div>
 
@@ -83,6 +73,8 @@ export function Hero() {
           ))}
         </ul>
       </div>
+
+      <Ticker />
     </section>
   );
 }

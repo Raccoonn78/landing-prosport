@@ -8,13 +8,49 @@
   height: 8px;
   background: linear-gradient(
     90deg,
-    #ffffff 0 16.66%,
-    var(--belt-yellow) 16.66% 33.33%,
-    var(--belt-green) 33.33% 50%,
-    var(--belt-blue) 50% 66.66%,
-    var(--belt-red) 66.66% 83.33%,
-    #2b2e36 83.33% 100%
+    #ffffff 0 14.3%,
+    var(--belt-orange) 14.3% 28.6%,
+    var(--belt-yellow) 28.6% 42.9%,
+    var(--belt-green) 42.9% 57.2%,
+    var(--belt-blue) 57.2% 71.5%,
+    var(--belt-red) 71.5% 85.8%,
+    #2b2e36 85.8% 100%
   );
+}
+
+/* Финальный призыв с девизом клуба */
+.footer__motto {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-block: clamp(40px, 6vw, 64px);
+  border-bottom: 1px solid rgba(247, 244, 238, 0.1);
+}
+
+.footer__motto svg {
+  flex: none;
+  padding: 10px;
+  box-sizing: content-box;
+  border-radius: 18px;
+  background: var(--paper);
+}
+
+.footer__motto p {
+  display: grid;
+  gap: 6px;
+  margin-right: auto;
+}
+
+.footer__motto p span {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--paper);
+}
+
+.footer__motto small {
+  font-size: 16px;
 }
 
 .footer__grid {
@@ -72,11 +108,6 @@
   color: var(--belt-yellow);
 }
 
-.footer__contacts .btn {
-  margin-top: 10px;
-  color: var(--ink);
-}
-
 .footer__bottom {
   display: flex;
   flex-wrap: wrap;
@@ -89,6 +120,14 @@
 }
 
 @media (max-width: 860px) {
+  .footer__motto {
+    flex-wrap: wrap;
+  }
+
+  .footer__motto p {
+    flex: 1 1 60%;
+  }
+
   .footer__grid {
     grid-template-columns: 1fr 1fr;
   }

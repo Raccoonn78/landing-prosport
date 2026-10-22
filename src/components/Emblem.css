@@ -22,11 +22,22 @@
 }
 
 .emblem--spin .emblem__ring {
-  animation: emblem-spin 40s linear infinite;
+  animation: emblem-spin 24s linear infinite;
+}
+
+/* Знак в центре слегка «дышит» */
+.emblem--spin .emblem__mark {
+  animation: emblem-breathe 4s ease-in-out infinite;
 }
 
 @keyframes emblem-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes emblem-breathe {
+  50% {
+    transform: scale(0.5);
   }
 }

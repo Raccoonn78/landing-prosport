@@ -1,5 +1,5 @@
-import { CircleHelp, Mail, Phone } from 'lucide-react';
-import { club, faq } from '../data/content';
+import { Mail } from 'lucide-react';
+import { club, faq, mailto } from '../data/content';
 import { delay } from '../utils/reveal';
 import { SectionHead } from './SectionHead';
 import './Faq.css';
@@ -10,17 +10,13 @@ export function Faq() {
       <div className="container faq__grid">
         <div>
           <SectionHead
-            icon={<CircleHelp size={26} />}
+            belt="black"
             tag="Вопросы и ответы"
             title="Частые вопросы родителей и новичков"
-            lead="Не нашли ответ? Позвоните или напишите — тренер всё расскажет."
+            lead="Не нашли ответ? Напишите нам — тренер всё расскажет."
           />
           <div className="faq__contacts" data-reveal>
-            <a href={club.phoneHref}>
-              <Phone size={18} />
-              {club.phone}
-            </a>
-            <a href={`mailto:${club.email}`}>
+            <a href={mailto('Вопрос о тренировках')}>
               <Mail size={18} />
               {club.email}
             </a>

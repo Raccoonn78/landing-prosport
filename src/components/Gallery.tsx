@@ -1,17 +1,27 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { gallery } from '../data/content';
-import { delay } from '../utils/reveal';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { galleryTabs } from '../data/content';
+import { photosIn, srcSet } from '../data/photos';
 import { SectionHead } from './SectionHead';
 import './Gallery.css';
 
+type TabId = (typeof galleryTabs)[number]['id'];
+
+const albums = Object.fromEntries(galleryTabs.map((t) => [t.id, photosIn(`gallery/${t.id}`)])) as Record<
+  TabId,
+  ReturnType<typeof photosIn>
+>;
+
 export function Gallery() {
+  const [tab, setTab] = useState<TabId>(galleryTabs[0].id);
   const [open, setOpen] = useState<number | null>(null);
+  const photos = albums[tab];
+  const tabLabel = galleryTabs.find((t) => t.id === tab)?.label ?? '';
 
   const close = useCallback(() => setOpen(null), []);
   const step = useCallback(
-    (dir: 1 | -1) => setOpen((i) => (i === null ? i : (i + dir + gallery.length) % gallery.length)),
-    [],
+    (dir: 1 | -1) => setOpen((i) => (i === null ? i : (i + dir + photos.length) % photos.length)),
+    [photos.length],
   );
 
   useEffect(() => {
@@ -29,56 +39,70 @@ export function Gallery() {
     };
   }, [open, close, step]);
 
+  const current = open === null ? null : photos[open];
+
   return (
     <section className="section section--tint gallery" id="gallery">
       <div className="container">
         <SectionHead
-          belt="red"
+          belt="blue"
           tag="Галерея"
           title="Жизнь клуба: тренировки, турниры, сборы"
           lead="Аттестации, соревнования, выездные сборы зимой и летом — и дружная команда, которая всегда поддержит."
         />
 
-        <div className="gallery__grid">
-          {gallery.map((item, i) => (
+        <div className="gallery__tabs" role="tablist" aria-label="Альбомы" data-reveal>
+          {galleryTabs.map((t) => (
             <button
-              key={item.src}
+              key={t.id}
               type="button"
-              className={`gallery__item gallery__item--${i + 1}`}
-              onClick={() => setOpen(i)}
-              data-reveal
-              style={delay(0.05 * i)}
+              role="tab"
+              aria-selected={tab === t.id}
+              onClick={() => setTab(t.id)}
             >
-              <img src={item.src} alt={item.text} loading="lazy" />
-              <span className="gallery__caption">
-                <strong>{item.caption}</strong>
-                <span>{item.text}</span>
-              </span>
+              {t.label}
+              <span>{albums[t.id].length}</span>
             </button>
           ))}
+        </div>
 
-          <div className="gallery__quote" data-reveal style={delay(0.2)}>
-            <p className="gallery__quote-num">1 = 2</p>
-            <p>«1 неделя тренировок на сборах заменяет 2 месяца занятий в группе»</p>
-          </div>
-
-          <div className="gallery__cta" data-reveal style={delay(0.25)}>
-            <p>Хотите увидеть всё своими глазами?</p>
-            <span>Приходите на тренировку — познакомим с тренером и командой.</span>
-            <a className="btn btn--sun" href="#signup">
-              Записаться
-              <ArrowRight size={18} />
-            </a>
-          </div>
+        <div className="gallery__grid" role="tabpanel" aria-label={tabLabel} key={tab}>
+          {photos.map((p, i) => (
+            <button
+              key={p.key}
+              type="button"
+              className="gallery__item"
+              style={{ animationDelay: `${Math.min(i, 12) * 0.04}s` }}
+              onClick={() => setOpen(i)}
+              aria-label={`Открыть фото ${i + 1} из ${photos.length}`}
+            >
+              <img
+                src={p.srcSm ?? p.src}
+                alt=""
+                width={p.width}
+                height={p.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+          ))}
         </div>
       </div>
 
-      {open !== null && (
-        <div className="lightbox" role="dialog" aria-modal="true" aria-label={gallery[open].caption} onClick={close}>
+      {current && open !== null && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${tabLabel}, фото ${open + 1}`} onClick={close}>
           <figure onClick={(e) => e.stopPropagation()}>
-            <img src={gallery[open].src} alt={gallery[open].text} />
+            <img
+              key={current.key}
+              src={current.src}
+              srcSet={srcSet(current)}
+              sizes="100vw"
+              alt=""
+              width={current.width}
+              height={current.height}
+            />
             <figcaption>
-              <strong>{gallery[open].caption}</strong> — {gallery[open].text}
+              {tabLabel} · {open + 1} / {photos.length}
             </figcaption>
           </figure>
           <button type="button" className="lightbox__close" aria-label="Закрыть" onClick={close} autoFocus>

@@ -1,23 +1,36 @@
-.groups {
+/* ---------- Преимущества: по поясу на каждое ---------- */
+.advantages {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.group {
+.advantage {
+  --belt-color: var(--belt-white);
   position: relative;
   display: grid;
-  gap: 14px;
+  gap: 12px;
   align-content: start;
-  padding: 32px 28px 30px;
+  padding: 24px 22px 26px;
   border-radius: var(--radius-lg);
   background: var(--surface);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-/* Цветная «лента пояса» сверху карточки */
-.group::before {
+.advantage:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+/* Лента пояса сверху карточки */
+.advantage::before {
   content: '';
   position: absolute;
   inset: 0 0 auto;
@@ -25,26 +38,94 @@
   background: var(--belt-color);
 }
 
-.group--yellow {
+.advantage--white::before {
+  box-shadow: inset 0 -1px 0 var(--line-strong);
+}
+
+.advantage--orange {
+  --belt-color: var(--belt-orange);
+}
+
+.advantage--yellow {
   --belt-color: var(--belt-yellow);
 }
 
-.group--green {
+.advantage--green {
   --belt-color: var(--belt-green);
 }
 
-.group--blue {
+.advantage--blue {
   --belt-color: var(--belt-blue);
 }
 
-.group h3 {
-  font-size: 22px;
+.advantage--red {
+  --belt-color: var(--belt-red);
 }
 
-.group p {
+.advantage--black {
+  --belt-color: var(--belt-black);
+}
+
+.advantage__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.advantage__head svg {
+  transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.advantage:hover .advantage__head svg {
+  transform: rotate(-8deg) scale(1.1);
+}
+
+.advantage__num {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--line-strong);
+}
+
+.advantage h3 {
+  font-size: 19px;
+}
+
+.advantage p {
+  font-size: 15px;
   color: var(--muted);
 }
 
+.advantage--cta {
+  align-content: space-between;
+  justify-items: start;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(39, 71, 168, 0.7), transparent 60%),
+    var(--ink);
+  color: var(--paper);
+}
+
+.advantage--cta::before {
+  background: linear-gradient(
+    90deg,
+    #fff 0 14.3%,
+    var(--belt-orange) 14.3% 28.6%,
+    var(--belt-yellow) 28.6% 42.9%,
+    var(--belt-green) 42.9% 57.2%,
+    var(--belt-blue) 57.2% 71.5%,
+    var(--belt-red) 71.5% 85.8%,
+    #3a3e48 85.8%
+  );
+}
+
+.advantage__cta-title {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* ---------- Что ждёт в клубе ---------- */
 .programs__subtitle {
   margin: clamp(56px, 7vw, 80px) 0 24px;
   font-size: clamp(22px, 2.4vw, 28px);
@@ -82,6 +163,20 @@
   border-radius: 16px;
   background: var(--ink);
   color: var(--belt-yellow);
+  transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.program:hover .program__icon {
+  transform: translateY(-3px) rotate(-6deg);
+}
+
+/* Когда для карточки появится фото (photos/club/…) */
+.program__photo {
+  width: calc(100% + 56px);
+  max-width: none;
+  margin: -28px -28px 6px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
 }
 
 .program h4 {
@@ -93,6 +188,7 @@
   color: var(--muted);
 }
 
+/* ---------- Форматы ---------- */
 .formats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -142,28 +238,46 @@
 }
 
 @media (max-width: 1020px) {
-  .groups,
+  .advantages,
   .program-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .groups .group:last-child {
-    grid-column: span 2;
-  }
 }
 
-@media (max-width: 680px) {
-  .groups,
+@media (max-width: 640px) {
+  .advantages,
   .program-grid,
   .formats {
     grid-template-columns: 1fr;
   }
 
-  .groups .group:last-child {
-    grid-column: auto;
+  .advantage {
+    grid-template-columns: auto 1fr;
+    column-gap: 16px;
+    row-gap: 6px;
+    padding: 22px 18px;
+  }
+
+  .advantage__head {
+    grid-row: span 2;
+    align-self: start;
+  }
+
+  .advantage__num {
+    display: none;
+  }
+
+  .advantage--cta {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .program {
     padding: 24px;
+  }
+
+  .program__photo {
+    width: calc(100% + 48px);
+    margin: -24px -24px 6px;
   }
 }

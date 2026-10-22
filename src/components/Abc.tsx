@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import type { KeyboardEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { KeyboardEvent, TouchEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { belts, glossary, tenets } from '../data/content';
+import { bobPhoto } from '../data/photos';
 import { delay } from '../utils/reveal';
 import { BeltKnot } from './BeltKnot';
 import { SectionHead } from './SectionHead';
@@ -67,18 +68,62 @@ export function Abc() {
 
 function BeltPath() {
   const [index, setIndex] = useState(0);
+  const [answerShown, setAnswerShown] = useState(false);
+  const steps = useRef<HTMLOListElement>(null);
+  const touch = useRef<{ x: number; y: number } | null>(null);
   const belt = belts[index];
+  const bunny = bobPhoto(belt.color);
+
+  const go = (i: number) => setIndex(Math.min(belts.length - 1, Math.max(0, i)));
+
+  // На телефоне пояса идут одной строкой с прокруткой — держим выбранный по центру.
+  // Прокручиваем только саму строку, чтобы страница не «уезжала».
+  useEffect(() => {
+    const list = steps.current;
+    const item = list?.children[index] as HTMLElement | undefined;
+    if (!list || !item || list.scrollWidth <= list.clientWidth) return;
+    list.scrollTo({ left: item.offsetLeft - (list.clientWidth - item.offsetWidth) / 2, behavior: 'smooth' });
+  }, [index]);
+
+  // Свайп по карточке влево/вправо — следующий/предыдущий пояс
+  const onTouchStart = (e: TouchEvent) => {
+    touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const onTouchEnd = (e: TouchEvent) => {
+    const start = touch.current;
+    touch.current = null;
+    if (!start) return;
+    const dx = e.changedTouches[0].clientX - start.x;
+    const dy = e.changedTouches[0].clientY - start.y;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(index + (dx < 0 ? 1 : -1));
+  };
+
+  const arrows = (
+    <>
+      <button type="button" aria-label="Предыдущий пояс" disabled={index === 0} onClick={() => go(index - 1)}>
+        <ChevronLeft size={22} />
+      </button>
+      <button
+        type="button"
+        aria-label="Следующий пояс"
+        disabled={index === belts.length - 1}
+        onClick={() => go(index + 1)}
+      >
+        <ChevronRight size={22} />
+      </button>
+    </>
+  );
 
   return (
     <div className="belt-path">
-      <ol className="belt-path__steps">
+      <ol className="belt-path__steps" ref={steps}>
         {belts.map((b, i) => (
           <li key={b.color}>
             <button
               type="button"
               className={i === index ? 'is-active' : i < index ? 'is-passed' : undefined}
               aria-pressed={i === index}
-              onClick={() => setIndex(i)}
+              onClick={() => go(i)}
             >
               <BeltKnot color={b.color} size={52} />
               <span>{b.name}</span>
@@ -87,38 +132,83 @@ function BeltPath() {
         ))}
       </ol>
 
-      <div className={`belt-card belt-card--${belt.color}`} key={belt.color}>
-        <div className="belt-card__visual" aria-hidden="true">
-          <BeltKnot color={belt.color} size={220} />
+      <div className={`belt-card belt-card--${belt.color}`} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div className="belt-card__visual">
+          {bunny ? (
+            <img
+              key={bunny.key}
+              className="belt-card__bunny"
+              src={bunny.src}
+              alt={`Зайчик Боб — ${belt.name.toLowerCase()} пояс: ${belt.theme.toLowerCase()}`}
+              width={bunny.width}
+              height={bunny.height}
+              loading="lazy"
+            />
+          ) : (
+            <BeltKnot color={belt.color} size={220} className="belt-card__fallback" />
+          )}
+          <BeltKnot color={belt.color} size={64} className="belt-card__badge" />
+          {/* На телефоне счётчик и стрелки закреплены на картинке и никуда не сдвигаются */}
+          <span className="belt-card__counter" aria-hidden="true">
+            {index + 1} / {belts.length}
+          </span>
+          <div className="belt-card__arrows">{arrows}</div>
         </div>
-        <div className="belt-card__body">
-          <p className="belt-card__step">
-            Шаг {index + 1} из {belts.length}
-          </p>
-          <h3>{belt.name} пояс</h3>
-          <p className="belt-card__rank">{belt.rank}</p>
-          <p className="belt-card__meaning">{belt.meaning}</p>
-          <div className="belt-card__nav">
-            <button
-              type="button"
-              aria-label="Предыдущий пояс"
-              disabled={index === 0}
-              onClick={() => setIndex((i) => i - 1)}
-            >
-              <ChevronLeft size={22} />
-            </button>
-            <button
-              type="button"
-              aria-label="Следующий пояс"
-              disabled={index === belts.length - 1}
-              onClick={() => setIndex((i) => i + 1)}
-            >
-              <ChevronRight size={22} />
-            </button>
+
+        <div className="belt-card__side">
+          {/* Тексты всех поясов лежат в одной ячейке друг на друге: карточка всегда
+              высотой с самый длинный текст и не меняет размер при переключении */}
+          <div className="belt-card__bodies">
+            {belts.map((b, i) => (
+              <div
+                key={b.color}
+                className={`belt-card__body ${i === index ? 'is-active' : ''}`}
+                aria-hidden={i !== index}
+                inert={i !== index}
+              >
+                <p className="belt-card__step">
+                  Шаг {i + 1} из {belts.length}
+                </p>
+                <h3>{b.name} пояс</h3>
+                <p className="belt-card__rank">Тема: {b.theme}</p>
+                <div className="belt-card__meaning">
+                  {b.meaning.map((paragraph) => (
+                    <p key={paragraph}>
+                      <RichText text={paragraph} />
+                    </p>
+                  ))}
+                  {b.author && <p className="belt-card__author">— {b.author}</p>}
+                </div>
+                {b.answer && (
+                  <button
+                    type="button"
+                    className={`belt-card__answer ${answerShown ? 'is-shown' : ''}`}
+                    aria-expanded={answerShown}
+                    onClick={() => setAnswerShown((v) => !v)}
+                  >
+                    <span className="belt-card__answer-label">{answerShown ? 'Ответ:' : 'Показать ответ'}</span>
+                    <span className="belt-card__answer-text" aria-hidden={!answerShown}>
+                      {b.answer}
+                    </span>
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
+
+          <div className="belt-card__nav">{arrows}</div>
         </div>
       </div>
     </div>
+  );
+}
+
+/** Текст, где **так** выделено жирным. */
+function RichText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split('**').map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))}
+    </>
   );
 }
 

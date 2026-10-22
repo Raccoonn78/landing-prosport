@@ -1,0 +1,23 @@
+.fader {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+
+.fader img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 1.2s ease,
+    transform 7s ease-out;
+}
+
+.fader img.is-active {
+  opacity: 1;
+  transform: scale(1);
+}

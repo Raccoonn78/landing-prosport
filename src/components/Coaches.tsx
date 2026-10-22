@@ -1,5 +1,6 @@
 import { MapPin } from 'lucide-react';
 import { coaches, halls } from '../data/content';
+import { photo } from '../data/photos';
 import { delay } from '../utils/reveal';
 import { SectionHead } from './SectionHead';
 import './Coaches.css';
@@ -11,7 +12,7 @@ export function Coaches() {
     <section className="section coaches" id="coaches">
       <div className="container">
         <SectionHead
-          belt="blue"
+          belt="green"
           tag="Наша команда"
           title="От первого поклона до чёрного пояса"
           lead="Все тренеры клуба имеют спортивное образование и соревновательный опыт. Они знают, как помочь новичку освоиться и как подготовить спортсмена к турниру."
@@ -20,10 +21,25 @@ export function Coaches() {
         <div className="coach-grid">
           {coaches.map((coach, i) => {
             const [surname, ...rest] = coach.name.split(' ');
+            const img = photo(`coaches/${coach.id}`);
             return (
-              <article key={coach.id} className={`coach coach--${coach.accent}`} data-reveal style={delay(0.08 * i)}>
+              <article key={coach.id} className="coach" data-reveal style={delay(0.08 * i)}>
                 <div className="coach__photo">
-                  <img src={coach.photo} alt={coach.name} width={300} height={300} loading="lazy" />
+                  {img && (
+                    <img
+                      src={img.src}
+                      alt={coach.name}
+                      width={img.width}
+                      height={img.height}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+                  {coach.quote && (
+                    <blockquote className="coach__quote">
+                      <p>«{coach.quote}»</p>
+                    </blockquote>
+                  )}
                 </div>
                 <div className="coach__body">
                   <p className="coach__role">Тренер</p>

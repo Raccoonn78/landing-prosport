@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
-import { Menu, Phone, X } from 'lucide-react';
-import { club, nav } from '../data/content';
-import { useActiveSection, useScrollProgress } from '../hooks/useScrollEffects';
+import { Mail, Menu, X } from 'lucide-react';
+import type { BeltColor } from '../data/content';
+import { club, mailto, nav } from '../data/content';
+import { useScrollProgress } from '../hooks/useScrollEffects';
+import { BeltKnot } from './BeltKnot';
 import { Emblem } from './Emblem';
 import './Header.css';
 
-const sectionIds = nav.map((item) => item.id);
+type Props = {
+  /** Активный раздел страницы — для подсветки меню */
+  active: string | null;
+  /** Пояс активного раздела — в этот цвет перекрашивается полоска под шапкой */
+  belt: BeltColor;
+};
 
-export function Header() {
+export function Header({ active, belt }: Props) {
   const [open, setOpen] = useState(false);
   const progress = useScrollProgress();
-  const active = useActiveSection(sectionIds);
   const scrolled = progress > 0.005;
 
   useEffect(() => {
@@ -25,10 +31,10 @@ export function Header() {
     <header className={`header ${scrolled ? 'header--scrolled' : ''} ${open ? 'header--open' : ''}`}>
       <div className="header__bar container">
         <a className="header__logo" href="#top" onClick={() => setOpen(false)} aria-label="ПРОСПОРТ — на главную">
-          <Emblem size={44} />
+          <Emblem size={48} spin />
           <span className="header__logo-text">
             <strong>{club.name}</strong>
-            <small>клуб тхэквон-до</small>
+            <small>{club.motto}</small>
           </span>
         </a>
 
@@ -46,11 +52,7 @@ export function Header() {
         </nav>
 
         <div className="header__actions">
-          <a className="header__phone" href={club.phoneHref}>
-            <Phone size={18} />
-            <span>{club.phone}</span>
-          </a>
-          <a className="btn btn--primary header__cta" href="#signup" onClick={() => setOpen(false)}>
+          <a className="btn btn--primary header__cta" href={mailto()}>
             Записаться
           </a>
           <button
@@ -66,9 +68,12 @@ export function Header() {
         </div>
       </div>
 
-      {/* Полоса прогресса в виде пояса: от белого к чёрному по мере прокрутки */}
-      <div className="belt-progress" aria-hidden="true">
-        <div className="belt-progress__fill" style={{ clipPath: `inset(0 ${(1 - progress) * 100}% 0 0)` }} />
+      {/* Пояс под шапкой: перекрашивается по разделам, узел едет по ходу прокрутки */}
+      <div className={`belt-bar belt-bar--${belt}`} aria-hidden="true">
+        <div className="belt-bar__band" />
+        <div className="belt-bar__knot" style={{ left: `calc(${progress} * (100% - 40px))` }}>
+          <BeltKnot color={belt} size={40} />
+        </div>
       </div>
 
       <div id="mobile-menu" className="mobile-menu" hidden={!open}>
@@ -78,12 +83,13 @@ export function Header() {
               {item.label}
             </a>
           ))}
-          <a className="btn btn--primary" href="#signup" onClick={() => setOpen(false)}>
+          <a className="btn btn--primary" href={mailto()}>
+            <Mail size={18} />
             Записаться на тренировку
           </a>
-          <a className="btn btn--ghost" href={club.phoneHref}>
-            <Phone size={18} /> {club.phone}
-          </a>
+          <p className="mobile-menu__note">
+            Пишите нам: <a href={`mailto:${club.email}`}>{club.email}</a>
+          </p>
         </nav>
       </div>
     </header>

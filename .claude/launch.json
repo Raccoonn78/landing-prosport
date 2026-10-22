@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "up", "dev"],
+      "port": 5173,
+      "autoPort": false
+    },
+    {
+      "name": "prod",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "up", "--build", "web"],
+      "port": 8088,
+      "autoPort": false
+    }
+  ]
+}

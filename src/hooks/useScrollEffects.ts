@@ -44,10 +44,37 @@ export function useActiveSection(ids: string[]) {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
-    return () => observer.disconnect();
+
+    // Долистали до самого низа — последний раздел (чёрный пояс), даже если
+    // он короткий и не успел попасть в центр экрана
+    const onScroll = () => {
+      const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      if (bottom) setActive(ids[ids.length - 1]);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', onScroll);
+    };
   }, [ids]);
 
   return active;
+}
+
+/** Пользователь попросил систему уменьшить анимацию. */
+export function usePrefersReducedMotion() {
+  const query = '(prefers-reduced-motion: reduce)';
+  const [reduced, setReduced] = useState(() => window.matchMedia(query).matches);
+
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const onChange = () => setReduced(mq.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  return reduced;
 }
 
 /** Мягкое появление блоков с атрибутом data-reveal. */

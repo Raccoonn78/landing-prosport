@@ -1,0 +1,174 @@
+{
+  "hero/01": {
+    "width": 1280,
+    "height": 853
+  },
+  "hero/02": {
+    "width": 1280,
+    "height": 960
+  },
+  "hero/03": {
+    "width": 1280,
+    "height": 853
+  },
+  "hero/04": {
+    "width": 1280,
+    "height": 963
+  },
+  "about/01": {
+    "width": 1000,
+    "height": 848
+  },
+  "about/02": {
+    "width": 1000,
+    "height": 666
+  },
+  "about/03": {
+    "width": 600,
+    "height": 800
+  },
+  "about/04": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/life/01": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/life/02": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/life/03": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/life/04": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/life/05": {
+    "width": 800,
+    "height": 600
+  },
+  "gallery/life/06": {
+    "width": 800,
+    "height": 639
+  },
+  "gallery/life/07": {
+    "width": 800,
+    "height": 712
+  },
+  "gallery/life/08": {
+    "width": 800,
+    "height": 652
+  },
+  "gallery/life/09": {
+    "width": 1280,
+    "height": 960
+  },
+  "gallery/life/10": {
+    "width": 668,
+    "height": 800
+  },
+  "gallery/life/11": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/life/12": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/fun/01": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/fun/02": {
+    "width": 800,
+    "height": 721
+  },
+  "gallery/fun/03": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/fun/04": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/fun/05": {
+    "width": 600,
+    "height": 800
+  },
+  "gallery/fun/06": {
+    "width": 1280,
+    "height": 853
+  },
+  "gallery/fun/07": {
+    "width": 1280,
+    "height": 1086
+  },
+  "gallery/fun/08": {
+    "width": 600,
+    "height": 800
+  },
+  "coaches/egorova": {
+    "width": 300,
+    "height": 300
+  },
+  "coaches/ignatieva": {
+    "width": 300,
+    "height": 300
+  },
+  "coaches/oleynikov": {
+    "width": 300,
+    "height": 300
+  },
+  "coaches/pushkareva": {
+    "width": 300,
+    "height": 300
+  },
+  "bob/black": {
+    "width": 345,
+    "height": 520
+  },
+  "bob/blue": {
+    "width": 351,
+    "height": 520
+  },
+  "bob/green": {
+    "width": 667,
+    "height": 520
+  },
+  "bob/orange": {
+    "width": 684,
+    "height": 520
+  },
+  "bob/red": {
+    "width": 766,
+    "height": 520
+  },
+  "bob/white-orange": {
+    "width": 366,
+    "height": 520
+  },
+  "bob/white": {
+    "width": 206,
+    "height": 520
+  },
+  "bob/yellow": {
+    "width": 321,
+    "height": 520
+  },
+  "brand/emblem-mark": {
+    "width": 176,
+    "height": 176
+  },
+  "brand/emblem-ring": {
+    "width": 420,
+    "height": 420
+  },
+  "brand/logo-lockup": {
+    "width": 420,
+    "height": 126
+  }
+}

@@ -26,6 +26,17 @@ services:
     command: npm run build
     profiles: ['tools']
 
+  # Сжатие фото из photos/ в src/assets/photos/: docker compose run --rm photos
+  photos:
+    build:
+      context: .
+      target: deps
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: npm run photos
+    profiles: ['tools']
+
   # Production: http://localhost:8088 — собранный сайт за nginx
   web:
     build:

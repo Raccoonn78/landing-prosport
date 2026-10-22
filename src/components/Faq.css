@@ -5,10 +5,6 @@
   align-items: start;
 }
 
-.faq .section-head__tag svg {
-  color: var(--primary);
-}
-
 .faq__contacts {
   display: grid;
   gap: 10px;

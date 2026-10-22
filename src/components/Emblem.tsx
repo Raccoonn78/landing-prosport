@@ -1,3 +1,4 @@
+import { photo } from '../data/photos';
 import './Emblem.css';
 
 type Props = {
@@ -8,6 +9,9 @@ type Props = {
   className?: string;
 };
 
+const ring = photo('brand/emblem-ring');
+const mark = photo('brand/emblem-mark');
+
 /** Эмблема клуба из оригинальных файлов: кольцо с надписью + знак в центре. */
 export function Emblem({ size = 48, tone = 'dark', spin = false, className = '' }: Props) {
   return (
@@ -16,8 +20,8 @@ export function Emblem({ size = 48, tone = 'dark', spin = false, className = '' 
       style={{ width: size, height: size }}
       aria-hidden="true"
     >
-      <img className="emblem__ring" src="/images/brand/emblem-ring.webp" alt="" width={420} height={420} />
-      <img className="emblem__mark" src="/images/brand/emblem-mark.webp" alt="" width={176} height={176} />
+      {ring && <img className="emblem__ring" src={ring.src} alt="" width={ring.width} height={ring.height} />}
+      {mark && <img className="emblem__mark" src={mark.src} alt="" width={mark.width} height={mark.height} />}
     </span>
   );
 }
